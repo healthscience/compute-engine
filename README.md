@@ -1,2 +1,2 @@
-# compute-engine
-load computation into SafeFlow
+dynamic compute insert to safeflow ECS
+

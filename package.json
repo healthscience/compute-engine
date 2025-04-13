@@ -1,0 +1,23 @@
+{
+  "name": "compute-engine",
+  "version": "0.0.1",
+  "description": "Isolated compute engine for testing dynamic loading and WebAssembly",
+  "main": "src/index.js",
+  "type": "module",
+  "browser": {
+    "crypto": "crypto-browserify"
+  },
+  "scripts": {
+    "test": "vitest",
+    "build:wasm": "asc src/models/wasm/as/src/average-wasm.ts --outFile src/models/wasm/average-statistics.wasm",
+    "build:wasm:sum": "asc src/models/wasm/as/src/sum-wasm.ts --outFile src/models/wasm/sum-statistics.wasm"
+  },
+  "dependencies": {
+    "assemblyscript": "^0.26.1",
+    "simple-statistics": "^7.8.3",
+    "crypto-browserify": "^3.12.0"
+  },
+  "devDependencies": {
+    "vitest": "^3.1.1"
+  }
+}
