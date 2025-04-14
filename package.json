@@ -1,11 +1,17 @@
 {
   "name": "compute-engine",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Isolated compute engine for testing dynamic loading and WebAssembly",
   "main": "src/index.js",
   "type": "module",
   "browser": {
     "crypto": "crypto-browserify"
+  },
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "require": "./src/index.js"
+    }
   },
   "scripts": {
     "test": "vitest",
