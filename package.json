@@ -1,23 +1,27 @@
 {
   "name": "compute-engine",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Isolated compute engine for testing dynamic loading and WebAssembly",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "type": "module",
   "browser": {
     "crypto": "crypto-browserify"
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
+      "import": "./src/index.js",
+      "require": "./src/index.js"
+    },
+    "./models": {
+      "import": "./src/models/index.js",
+      "require": "./src/models/index.js"
     }
   },
   "scripts": {
-    "build": "esbuild src/models/statistics/average.js --bundle --platform=node --target=es2020 --outdir=dist",
     "test": "vitest",
     "build:wasm": "asc src/models/wasm/as/src/average-wasm.ts --outFile src/models/wasm/average-statistics.wasm",
-    "build:wasm:sum": "asc src/models/wasm/as/src/sum-wasm.ts --outFile src/models/wasm/sum-statistics.wasm"
+    "build:wasm:sum": "asc src/models/wasm/as/src/sum-wasm.ts --outFile src/models/wasm/sum-statistics.wasm",
+    "build": "npm run build:wasm && npm run build:wasm:sum"
   },
   "dependencies": {
     "assemblyscript": "^0.26.1",
@@ -25,7 +29,27 @@
     "crypto-browserify": "^3.12.0"
   },
   "devDependencies": {
-    "esbuild": "^0.20.0",
     "vitest": "^3.1.1"
-  }
+  },
+  "keywords": [
+    "compute",
+    "engine",
+    "wasm",
+    "webassembly",
+    "statistics",
+    "machine-learning"
+  ],
+  "author": {
+    "name": "James Littlejohn",
+    "email": "aboynejames@gmail.com"
+  },
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/healthscience/compute-engine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/healthscience/compute-engine/issues"
+  },
+  "homepage": "https://github.com/healthscience/compute-engine#readme"
 }
