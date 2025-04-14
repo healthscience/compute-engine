@@ -64,9 +64,9 @@ class WASMWrapper {
         throw new Error('Array must contain only finite numbers');
       }
 
-      console.log('Input array:', array);
-      console.log('Array length:', array.length);
-      console.log('First value:', array[0]);
+      // console.log('Input array:', array);
+      // console.log('Array length:', array.length);
+      // console.log('First value:', array[0]);
       
       // Allocate memory in WASM
       const bytesPerElement = 8; // 64-bit floats
