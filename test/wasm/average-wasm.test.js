@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import wasm from '../../models/wasm/wasm-wrapper.js';
+import wasm from './src/models/wasm/wasm-wrapper.js';
 
 describe('Average WASM', () => {
   it('should calculate average', async () => {

@@ -18,7 +18,7 @@
     }
   },
   "scripts": {
-    "test": "vitest",
+    "test": "vitest run",
     "build:wasm": "asc src/models/wasm/as/src/average-wasm.ts --outFile src/models/wasm/average-statistics.wasm",
     "build:wasm:sum": "asc src/models/wasm/as/src/sum-wasm.ts --outFile src/models/wasm/sum-statistics.wasm",
     "build": "npm run build:wasm && npm run build:wasm:sum"

@@ -1,6 +1,6 @@
 // src/test/sum.test.js
 import { describe, it, expect, beforeEach } from 'vitest';
-import SumModel from '../../models/statistics/sum.js';
+import SumModel from './src/models/statistics/sum.js';
 
 describe('Sum Model', () => {
   let model;

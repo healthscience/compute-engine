@@ -1,6 +1,6 @@
 // src/test/compute-linear-regression.test.js
 import { describe, it, expect, beforeEach } from 'vitest';
-import LinearRegressionModel from '../../models/statistics/linear-regression.js';
+import LinearRegressionModel from './src/models/statistics/linear-regression.js';
 
 describe('Linear Regression Model', () => {
   let model;

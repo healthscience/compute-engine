@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import AverageModel from '../../models/statistics/average.js';
+import AverageModel from './src/models/statistics/average.js';
 
 describe('Compute Engine', () => {
   let model;
