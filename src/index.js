@@ -1,9 +1,11 @@
 import * as models from './models/index.js';
+import { loadJavaScriptModel, loadWasmModel, loadPyScriptModel } from './loaders.js';
 
 class ComputeEngine {
   constructor() {
     this.models = new Map();
     this.loaders = new Map();
+    this.jsLoader = loadJavaScriptModel
   }
 
   async loadModel(modelName) {
@@ -103,4 +105,6 @@ export function registerModelLoader(type, loaderFn) {
 export * from './models/index.js';
 
 const computeEngine = new ComputeEngine();
+console.log('pre comptue c engnen')
+console.log(computeEngine)
 export default computeEngine;
