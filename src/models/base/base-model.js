@@ -1,4 +1,3 @@
-// src/models/base/base-model.js
 import { createHash } from 'crypto-browserify';
 
 export default class BaseModel {
@@ -8,7 +7,7 @@ export default class BaseModel {
       version: '1.0.0',
       hash: ''
     };
-    this.wasm = null;
+    this.wasmWrap = null;
     this.signature.hash = this.generateHash();
   }
 
@@ -25,12 +24,11 @@ export default class BaseModel {
   }
 
   async initWasm() {
-    if (!this.wasm) {
-      const wasm = await import('../wasm/wasm-wrapper.js');
-      this.wasm = wasm.default;
-      await this.wasm.init();
+    if (!this.wasmWrap) {
+      const wasmWrapper = await import('../wasm/wasm-wrapper.js');
+      this.wasmWrap = wasmWrapper.default;
     }
-    return this.wasm;
+    return this.wasmWrap;
   }
 
   async compute(data, options = {}) {

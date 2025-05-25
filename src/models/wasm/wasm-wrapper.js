@@ -1,4 +1,3 @@
-// src/models/wasm/wasm-wrapper.js
 class WASMWrapper {
   constructor() {
     this.instances = new Map();
@@ -6,8 +5,9 @@ class WASMWrapper {
     this.defaultTable = new WebAssembly.Table({ initial: 0, element: 'anyfunc' });
   }
 
-  async init(moduleName = 'average') {
-    if (!this.instances.has(moduleName)) {
+  async init(moduleName) {
+    let pathW  = this.instances.has(moduleName)
+    if (pathW === false) {
       const importObject = {
         env: {
           abort: () => {
@@ -17,6 +17,7 @@ class WASMWrapper {
           table: this.defaultTable,
           console: {
             log: function(msg) {
+              console.log('message wasm')
               console.log(msg);
             }
           }
@@ -26,13 +27,13 @@ class WASMWrapper {
       let bytes;
       if (typeof window !== 'undefined' && typeof fetch === 'function') {
         // Browser environment
-        const response = await fetch(new URL(`/models/wasm/${moduleName}-statistics.wasm`, window.location.origin));
+        const response = await fetch(new URL(`/models/wasm/statistics/${moduleName}.wasm`, window.location.origin));
         bytes = await response.arrayBuffer();
       } else {
         // Node.js environment
         const fs = require('fs');
         const path = require('path');
-        const wasmPath = path.join(__dirname, `${moduleName}-statistics.wasm`);
+        const wasmPath = path.join(__dirname, `/statistics/${moduleName}.wasm`);
         bytes = fs.readFileSync(wasmPath);
       }
 
@@ -41,6 +42,8 @@ class WASMWrapper {
         instance: result.instance,
         memory: result.instance.exports.memory
       });
+    } else {
+      console.log('else already setup')
     }
     return this.instances.get(moduleName);
   }
@@ -85,7 +88,6 @@ class WASMWrapper {
       try {
         // Pass the offset and length to WASM
         const result = instance.exports[funcName](0, array.length); // Use offset 0
-        console.log('Result:', result);
         return result;
       } catch (error) {
         // Reset memory state on error
@@ -103,7 +105,7 @@ class WASMWrapper {
   }
 
   async average(values) {
-    return this.callFunction('average', 'average', values);
+    return await this.callFunction('average-statistics', 'average', values);
   }
 }
 

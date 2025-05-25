@@ -1,37 +1,32 @@
-// src/loaders.js - Loader implementations
+import { generateHash } from './utils/hash.js';
+import fs from 'fs';
+import path from 'path';
+
 /**
  * JavaScript model loader
  * @param {Object} contract - The model contract
  * @returns {Promise<Object>} - The loaded model
  */
 export async function loadJavaScriptModel(contract) {
-  const { source } = contract;
-  
-  // Handle different source types
-  if (source.url) {
-    try {
-      // Load from URL
-      const module = await import(source.url);
-      return module.default || module;
-    } catch (error) {
-      throw new Error(`Failed to load JavaScript model from URL: ${error.message}`);
+  const { name, source, hash } = contract.value.computational;
+
+  // Construct the file path based on the contract details
+  const filePath = `./models/statistics/${name}.js`;
+
+  try {
+    // Generate hash for the file path
+    const fileHash = generateHash(filePath);
+    // Verify the hash
+    if (fileHash !== hash) {
+      throw new Error(`Hash mismatch for JavaScript model: expected ${hash}, got ${fileHash}`);
     }
-  } 
-  else if (source.code) {
-    // Load from code string (with security measures)
-    return createModelFromCode(source.code);
+    // Dynamically import the model file
+    const module = await import(filePath);
+
+    return module.default || module;
+  } catch (error) {
+    throw new Error(`Failed to load JavaScript model from path: ${filePath}. Error: ${error.message}`);
   }
-  else if (source.path) {
-    try {
-      // Load from local file system (if running in Node.js)
-      const module = await import(source.path);
-      return module.default || module;
-    } catch (error) {
-      throw new Error(`Failed to load JavaScript model from path: ${error.message}`);
-    }
-  }
-  
-  throw new Error('Invalid JavaScript model source');
 }
 
 /**
@@ -40,30 +35,30 @@ export async function loadJavaScriptModel(contract) {
  * @returns {Promise<Object>} - The loaded model
  */
 export async function loadWasmModel(contract) {
-  const { source } = contract;
-  
+  const { name, source, hash } = contract.value.computational;
+
+  // TEMP two file method, check source wasm file and higher level helper file
+  // Construct the file path based on the contract details
+  const filePathWASM = path.resolve(`./src/models/wasm/statistics/${name}.wasm`);
+  const filePathHelper = `./models/statistics/${'average'}.js`;
   try {
-    // Fetch and instantiate WASM module
-    let wasmModule;
-    
-    if (source.url) {
-      wasmModule = await WebAssembly.instantiateStreaming(
-        fetch(source.url),
-        contract.importObject || {}
-      );
-    } else if (source.buffer) {
-      wasmModule = await WebAssembly.instantiate(
-        source.buffer,
-        contract.importObject || {}
-      );
-    } else {
-      throw new Error('WASM source must specify url or buffer');
+    // Generate hash for the file path
+    const fileHashWasm = generateHash(filePathWASM);
+    const fileHashHelper = generateHash(filePathHelper)
+
+    // Verify the hash
+    if (fileHashWasm !== hash) {
+      throw new Error(`Hash mismatch for WASM model: expected ${hash}, got ${fileHashWasm}`);
     }
-    
-    // Create a wrapper with a standard interface
-    return createWasmModelWrapper(wasmModule, contract);
+
+    // use the average prepared file for now
+    // Dynamically import the model file
+    const module = await import(filePathHelper);
+
+    return module.default || module;
+
   } catch (error) {
-    throw new Error(`Failed to load WASM model: ${error.message}`);
+     throw new Error(`Failed to load WASM model from path: ${filePathHelper}. Error: ${error.message}`);
   }
 }
 
@@ -73,15 +68,17 @@ export async function loadWasmModel(contract) {
  * @returns {Promise<Object>} - The loaded model
  */
 export async function loadPyScriptModel(contract) {
-  const { source } = contract;
-  
+  console.log('python loader');
+  const { name, source, hash } = contract.value.computational;
+
+  // Construct the file path based on the contract details
+  const filePath = `./models/python/statistics/${name}.py`;
+
   try {
     // Ensure PyScript is loaded
     await ensurePyScriptLoaded();
-    
     // Create a Python environment with the code
     const pyodide = await globalThis.loadPyodide();
-    
     if (source.code) {
       await pyodide.loadPackagesFromImports(source.code);
       pyodide.runPython(source.code);
@@ -93,7 +90,15 @@ export async function loadPyScriptModel(contract) {
     } else {
       throw new Error('PyScript source must specify code or url');
     }
-    
+
+    // Generate hash for the file path
+    const fileHash = generateHash(filePath);
+
+    // Verify the hash
+    if (fileHash !== hash) {
+      throw new Error(`Hash mismatch for PyScript model: expected ${hash}, got ${fileHash}`);
+    }
+
     // Return a wrapper that calls the Python compute function
     return createPyScriptModelWrapper(pyodide);
   } catch (error) {
@@ -111,7 +116,6 @@ export async function loadPyScriptModel(contract) {
 function createModelFromCode(code) {
   // IMPORTANT: This needs proper sandboxing in production!
   // Options include VM2, isolated-vm, or a Worker-based approach
-  
   try {
     // Wrap the code to create a proper compute function
     const wrappedCode = `
@@ -121,7 +125,6 @@ function createModelFromCode(code) {
         }
       };
     `;
-    
     // Use Function constructor to create a function from the code
     // This is not secure for untrusted code!
     const createModelFn = new Function(wrappedCode);
@@ -139,12 +142,10 @@ function createModelFromCode(code) {
  */
 function createWasmModelWrapper(wasmModule, contract) {
   const instance = wasmModule.instance;
-  const exportName = contract.exportName || 'compute';
-  
+  const exportName = contract.exportName || 'average';
   if (!instance.exports[exportName]) {
     throw new Error(`WASM module does not export '${exportName}' function`);
   }
-  
   return {
     compute: (inputs, options = {}) => {
       // This is a simplified implementation - would need to be
@@ -171,13 +172,11 @@ function createPyScriptModelWrapper(pyodide) {
       // Convert inputs to Python format
       const pyInputs = pyodide.toPy(inputs);
       const pyOptions = pyodide.toPy(options || {});
-      
       // Call the compute function
       try {
         const result = pyodide.runPython(`
           compute(${pyInputs}, ${pyOptions})
         `);
-        
         // Convert result back to JavaScript
         return result.toJs();
       } catch (error) {
@@ -193,12 +192,10 @@ function createPyScriptModelWrapper(pyodide) {
  */
 async function ensurePyScriptLoaded() {
   if (globalThis.loadPyodide) return;
-  
   // This is a browser-only implementation
   if (typeof window === 'undefined') {
     throw new Error('PyScript is only supported in browser environments');
   }
-  
   // Load PyScript dynamically
   return new Promise((resolve, reject) => {
     const script = document.createElement('script');

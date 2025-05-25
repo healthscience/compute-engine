@@ -31,9 +31,14 @@ export default class AverageModel extends BaseModel {
   }
 
   async computeWasm(data, options = {}) {
-    const wasm = await this.initWasm();
+    const wasmLive = await this.initWasm();
     const values = data.map(item => item.value || item);
-    const result = await wasm.callFunction('average', values);
+    // two option call direct or via export short cut
+    // one
+    // const result = await wasmLive.average(values);
+    // two
+    const result =  await wasmLive.callFunction('average-statistics', 'average', values);
+    // const result = await wasmLive.callFunction('average-statistics', values);
     return {
       result: result,
       metadata: {
