@@ -16,7 +16,7 @@ describe('Dynamic Model Loading', () => {
           description: 'WASM model',
           dtprefix: 'null',
           code: '', // WASM models do not use code
-          hash: '3e86e9b9b5a7402e8066b58ae06f4599a1cc73f6852db1d7530a1e530bb95dd1',
+          hash: '064158be46a97526a800311ff339f0a0b37afd936c0d8859c07ee3b70cbabc0c',
           mode: 'wasm', // Specify the mode
           source: {
             url: 'path/to/wasm/module.wasm' // URL to the WASM module
@@ -41,7 +41,7 @@ describe('Dynamic Model Loading', () => {
           description: 'WASM model',
           dtprefix: 'null',
           code: '', // WASM models do not use code
-          hash: '3e86e9b9b5a7402e8066b58ae06f4599a1cc73f6852db1d7530a1e530bb95dd1',
+          hash: '064158be46a97526a800311ff339f0a0b37afd936c0d8859c07ee3b70cbabc0c',
           mode: 'wasm', // Specify the mode
           source: {
             url: 'path/to/wasm/module.wasm' // URL to the WASM module

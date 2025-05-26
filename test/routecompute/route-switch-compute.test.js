@@ -5,6 +5,9 @@ import { loadJavaScriptModel, loadWasmModel } from '../../src/loaders.js';
 describe('Dynamic Model Loading', () => {
 
   it('look at compute contract and bring model to life based upon compute mode e.g wasm or js', async () => {
+   console.log('compute got it models?')
+   console.log(computeEngine)
+   
     let contractArray = []
     // Prepare a sample contract using the new structure
     const sampleContractW = {
@@ -18,7 +21,7 @@ describe('Dynamic Model Loading', () => {
           description: 'WASM model',
           dtprefix: 'null',
           code: '', // WASM models do not use code
-          hash: '3e86e9b9b5a7402e8066b58ae06f4599a1cc73f6852db1d7530a1e530bb95dd1',
+          hash: '064158be46a97526a800311ff339f0a0b37afd936c0d8859c07ee3b70cbabc0c', // '3e86e9b9b5a7402e8066b58ae06f4599a1cc73f6852db1d7530a1e530bb95dd1',
           mode: 'wasm', // Specify the mode
           source: {
             url: 'path/to/wasm/module.wasm' // URL to the WASM module
@@ -39,7 +42,7 @@ describe('Dynamic Model Loading', () => {
           description: 'statistical mean',
           dtprefix: 'null',
           code: 'return inputs.reduce((a, b) => a + b, 0) / inputs.length;',
-          hash: 'afe8619d1f5fc2dbbb69ca333b537121915de07ab511b03c287f67d1909b471b',
+          hash: '335bc8b13e28cfce6e0a073784cb2c1c14572dae376e374a71ed69c78f5e0247', // 'afe8619d1f5fc2dbbb69ca333b537121915de07ab511b03c287f67d1909b471b',
           mode: 'javascript' // Specify the mode
         }
       }

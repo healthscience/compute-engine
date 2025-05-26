@@ -1,4 +1,26 @@
-import * as models from './models/index.js';
+import os from 'os'
+import path from 'path';
+// Construct the path to the models folder standard home dictory HOP implementation
+const modelsPath = path.join(os.homedir(), '.hop-models', '', 'index.js');
+// Function to dynamically import the models
+async function loadModels() {
+  try {
+    const models = await import(modelsPath);
+    return models;
+  } catch (error) {
+    console.error('Error loading models:', error);
+    throw error;
+  }
+}
+
+// Immediately invoke the function to load the models and re-export them
+const modelsPromise = loadModels();
+
+// Re-export the models dynamically
+export const models = await modelsPromise;
+
+
+// import * as models from os.homedir() +  '.hop-models/models/index.js' // + './models/index.js';
 import { loadJavaScriptModel, loadWasmModel, loadPyScriptModel } from './loaders.js';
 
 class ComputeEngine {
@@ -48,7 +70,6 @@ class ComputeEngine {
     if (this.models.has(modelKey)) {
       return this.models.get(modelKey);
     }
-
     const loader = this.loaders.get(modelId);
 
     if (!loader) {
@@ -63,6 +84,11 @@ class ComputeEngine {
     }
   }
 
+  /**
+  * detect model mode
+  * @method exectureContract
+  *
+  */
   async executeContract(contract, inputs, options = {}) {
     const model = await this.loadModelFromContract(contract);
     const startTime = Date.now();
@@ -79,6 +105,42 @@ class ComputeEngine {
     };
   }
 
+  /**
+  * check if compute model is registered already?
+  * @method checkRegistered
+  *
+  */
+  checkRegistered(contract) {
+    let registered = false
+    for (let regMod of this.loaders) {
+      if (regMod[0] === contract.value.computational.hash) {
+        registered = true
+      }
+    }
+    return registered
+  }
+
+  /**
+  * check if compute model is live?
+  * @method checkLoaded
+  *
+  */
+  checkLoaded(contract) {
+    let registered = false
+    for (let regMod of this.models) {
+      if (regMod[0] === contract.value.computational.hash + '@latest') {
+        registered = true
+        break;
+      }
+    }
+    return registered
+  }
+
+  /**
+  * detect model mode
+  * @method detectModelType
+  *
+  */
   detectModelType(computational) {
     if (computational.url) {
       if (computational.url.endsWith('.wasm')) return 'wasm';
@@ -103,7 +165,7 @@ export function registerModelLoader(type, loaderFn) {
   computeEngine.registerLoader(type, loaderFn);
 }
 
-export * from './models/index.js';
+// export * from './models/index.js';
 
 const computeEngine = new ComputeEngine();
 export default computeEngine;
