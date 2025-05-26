@@ -25,4 +25,5 @@ describe('Sum WASM', () => {
     const result = await wasm.sum(values);
     expect(result).toBe(6e10);
   });
+  
 });

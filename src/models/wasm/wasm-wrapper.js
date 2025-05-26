@@ -101,7 +101,7 @@ class WASMWrapper {
 
   // Helper methods for common operations
   async sum(values) {
-    return this.callFunction('sum', 'sum', values);
+    return this.callFunction('sum-statistics', 'sum', values);
   }
 
   async average(values) {
