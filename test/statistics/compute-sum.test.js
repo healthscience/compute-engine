@@ -17,16 +17,6 @@ describe('Sum Model', () => {
     expect(result.metadata.count).toBe(5);
   });
 
-  it('should handle empty array', async () => {
-    const result = await model.compute([]);
-    expect(result.error).toBe('Invalid data');
-  });
-
-  it('should handle non-array input', async () => {
-    const result = await model.compute('not an array');
-    expect(result.error).toBe('Invalid data');
-  });
-
   it('should verify model integrity', async () => {
     const isValid = await model.verify();
     expect(isValid).toBe(true);

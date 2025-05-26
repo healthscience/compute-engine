@@ -6,6 +6,7 @@ class ComputeEngine {
     this.models = new Map();
     this.loaders = new Map();
     this.jsLoader = loadJavaScriptModel
+    this.wasmLoader = loadWasmModel
   }
 
   async loadModel(modelName) {
@@ -105,6 +106,4 @@ export function registerModelLoader(type, loaderFn) {
 export * from './models/index.js';
 
 const computeEngine = new ComputeEngine();
-console.log('pre comptue c engnen')
-console.log(computeEngine)
 export default computeEngine;
