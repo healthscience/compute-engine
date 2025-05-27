@@ -38,7 +38,6 @@ export default class AverageModel extends BaseModel {
     // const result = await wasmLive.average(values);
     // two
     const result =  await wasmLive.callFunction('average-statistics', 'average', values);
-    // const result = await wasmLive.callFunction('average-statistics', values);
     return {
       result: result,
       metadata: {

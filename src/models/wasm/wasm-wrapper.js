@@ -1,3 +1,9 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
+
 class WASMWrapper {
   constructor() {
     this.instances = new Map();
@@ -31,8 +37,6 @@ class WASMWrapper {
         bytes = await response.arrayBuffer();
       } else {
         // Node.js environment
-        const fs = require('fs');
-        const path = require('path');
         const wasmPath = path.join(__dirname, `/statistics/${moduleName}.wasm`);
         bytes = fs.readFileSync(wasmPath);
       }
