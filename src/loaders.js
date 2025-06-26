@@ -12,7 +12,12 @@ export async function loadJavaScriptModel(contract) {
   const { name, source, hash } = contract.value.computational;
 
   // Construct the file path based on the contract details
-  const filePath = os.homedir() + `/.hop-models/statistics/${name}.js`;
+  let filePath = ''
+  if (os.platform() === 'win32') {
+    os.homedir() + `/hop-models/statistics/${name}.js`;
+  } else {
+     os.homedir() + `/.hop-models/statistics/${name}.js`;
+  }
 
   try {
     // Generate hash for the file path
@@ -39,8 +44,14 @@ export async function loadWasmModel(contract) {
   const { name, source, hash } = contract.value.computational;
   // TEMP two file method, check source wasm file and higher level helper file
   // Construct the file path based on the contract details
-  const filePathWASM = path.resolve( os.homedir() + `/.hop-models/wasm/statistics/${name}.wasm`);
-  const filePathHelper = path.resolve( os.homedir() + `/.hop-models/statistics/${'average'}.js`);
+  let fileNameOS = ''
+  if (os.platform() === 'win32') {
+    fileNameOS =  `/hop-models/wasm/statistics/${name}.wasm`
+  } else {
+    fileNameOS =  `/.hop-models/wasm/statistics/${name}.wasm`
+  }
+  const filePathWASM = path.resolve( os.homedir() + fileNameOS );
+  const filePathHelper = path.resolve( os.homedir() + fileNameOS );
   try {
     // Generate hash for the file path
     const fileHashWasm = generateHash(filePathWASM);
@@ -70,7 +81,12 @@ export async function loadPyScriptModel(contract) {
   const { name, source, hash } = contract.value.computational;
 
   // Construct the file path based on the contract details
-  const filePath =  os.homedir() + `/.hop-models/python/statistics/${name}.py`;
+  let filePath = ''
+  if (os.platform() === 'win32') {
+    filePath =  os.homedir() + `/hop-models/python/statistics/${name}.py`;
+  } else {
+    filePath =  os.homedir() + `/.hop-models/python/statistics/${name}.py`;
+  }
 
   try {
     // Ensure PyScript is loaded

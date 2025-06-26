@@ -1,7 +1,14 @@
 import os from 'os'
 import path from 'path';
 // Construct the path to the models folder standard home dictory HOP implementation
-const modelsPath = path.join(os.homedir(), '.hop-models', '', 'index.js');
+let modelsPath = ''
+if (os.platform() === 'win32') {
+  modelsPath = path.join(os.homedir(), 'hop-models', '', 'index.js');
+} else {
+  modelsPath = path.join(os.homedir(), '.hop-models', '', 'index.js');
+}
+console.log('modelsPath')
+console.log(modelsPath)
 // Function to dynamically import the models
 async function loadModels() {
   try {
@@ -22,6 +29,7 @@ export const models = await modelsPromise;
 
 // import * as models from os.homedir() +  '.hop-models/models/index.js' // + './models/index.js';
 import { loadJavaScriptModel, loadWasmModel, loadPyScriptModel } from './loaders.js';
+import { mode } from 'simple-statistics';
 
 class ComputeEngine {
   constructor() {
