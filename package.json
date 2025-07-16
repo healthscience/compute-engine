@@ -4,19 +4,6 @@
   "description": "Isolated compute engine for testing dynamic loading and WebAssembly",
   "main": "src/index.js",
   "type": "module",
-  "browser": {
-    "crypto": "crypto-browserify"
-  },
-  "exports": {
-    ".": {
-      "import": "./src/index.js",
-      "require": "./src/index.js"
-    },
-    "./models": {
-      "import": "./src/models/index.js",
-      "require": "./src/models/index.js"
-    }
-  },
   "scripts": {
     "test": "vitest run",
     "build:wasm": "asc src/models/wasm/as/src/average-wasm.ts --outFile src/models/wasm/average-statistics.wasm",

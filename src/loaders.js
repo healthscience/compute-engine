@@ -14,14 +14,17 @@ export async function loadJavaScriptModel(contract) {
   // Construct the file path based on the contract details
   let filePath = ''
   if (os.platform() === 'win32') {
-    os.homedir() + `/hop-models/statistics/${name}.js`;
+    filePath = os.homedir() + `/hop-models/statistics/${name}.js`;
   } else {
-     os.homedir() + `/.hop-models/statistics/${name}.js`;
+    filePath = os.homedir() + `/.hop-models/statistics/${name}.js`;
   }
 
   try {
     // Generate hash for the file path
     const fileHash = generateHash(filePath);
+    console.log('fileHash')
+    console.log(filePath)
+    console.log(fileHash)
     // Verify the hash
     if (fileHash !== hash) {
       throw new Error(`Hash mismatch for JavaScript model: expected ${hash}, got ${fileHash}`);
@@ -51,7 +54,10 @@ export async function loadWasmModel(contract) {
     fileNameOS =  `/.hop-models/wasm/statistics/${name}.wasm`
   }
   const filePathWASM = path.resolve( os.homedir() + fileNameOS );
-  const filePathHelper = path.resolve( os.homedir() + fileNameOS );
+  const filePathHelper = path.resolve( os.homedir() + `/.hop-models/statistics/${'average'}.js`);
+  console.log('paths pelase')
+  console.log(filePathWASM)
+  console.log(filePathHelper)
   try {
     // Generate hash for the file path
     const fileHashWasm = generateHash(filePathWASM);

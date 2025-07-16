@@ -3,8 +3,10 @@ import path from 'path';
 // Construct the path to the models folder standard home dictory HOP implementation
 let modelsPath = ''
 if (os.platform() === 'win32') {
+  console.log('window path')
   modelsPath = path.join(os.homedir(), 'hop-models', '', 'index.js');
 } else {
+  console.log('non windows')
   modelsPath = path.join(os.homedir(), '.hop-models', '', 'index.js');
 }
 console.log('modelsPath')
