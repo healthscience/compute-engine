@@ -6,5 +6,6 @@ import crypto from 'crypto';
  * @returns {string} - The generated hash
  */
 export function generateHash(input) {
-  return crypto.createHash('sha256').update(input).digest('hex');
+  const content = fs.readFileSync(input);
+  return crypto.createHash('sha256').update(content).digest('hex');
 }
