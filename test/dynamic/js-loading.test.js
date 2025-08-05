@@ -15,7 +15,7 @@ describe('Dynamic Model Loading', () => {
           description: 'statistical mean',
           dtprefix: 'null',
           code: 'return inputs.reduce((a, b) => a + b, 0) / inputs.length;',
-          hash: '335bc8b13e28cfce6e0a073784cb2c1c14572dae376e374a71ed69c78f5e0247',
+          hash: 'f29a24b4bb9fac53c8c62005058b1fb72de5be85dd5c0ea75fa7de9ffe77177d',
           mode: 'javascript' // Specify the mode
         }
       }
@@ -39,7 +39,7 @@ describe('Dynamic Model Loading', () => {
           description: 'statistical mean',
           dtprefix: 'null',
           code: 'return inputs.reduce((a, b) => a + b, 0) / inputs.length;',
-          hash: '335bc8b13e28cfce6e0a073784cb2c1c14572dae376e374a71ed69c78f5e0247', // 'afe8619d1f5fc2dbbb69ca333b537121915de07ab511b03c287f67d1909b471b',
+          hash: 'f29a24b4bb9fac53c8c62005058b1fb72de5be85dd5c0ea75fa7de9ffe77177d', // 'afe8619d1f5fc2dbbb69ca333b537121915de07ab511b03c287f67d1909b471b',
           mode: 'javascript' // Specify the mode
         }
       }

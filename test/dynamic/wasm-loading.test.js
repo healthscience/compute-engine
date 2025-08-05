@@ -16,7 +16,7 @@ describe('Dynamic Model Loading', () => {
           description: 'WASM model',
           dtprefix: 'null',
           code: '', // WASM models do not use code
-          hash: '064158be46a97526a800311ff339f0a0b37afd936c0d8859c07ee3b70cbabc0c',
+          hash: '01fa9053131d6bd4e3f766d1e1bd0b58ec9eb99c59df7614975ff22bdbd0d471',
           mode: 'wasm', // Specify the mode
           source: {
             url: 'path/to/wasm/module.wasm' // URL to the WASM module
@@ -121,4 +121,4 @@ describe('Dynamic Model Loading', () => {
     await expect(computeEngine.loadModelFromContract(unsupportedTypeContract)).rejects.toThrow('No loader registered for model type: ');
     console.log('Finished test: should handle unsupported model type');
   });
-});
+}); 

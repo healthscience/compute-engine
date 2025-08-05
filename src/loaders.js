@@ -1,5 +1,4 @@
 import { generateHash } from './utils/hash.js';
-import fs from 'fs';
 import os from 'os'
 import path from 'path';
 
@@ -48,13 +47,16 @@ export async function loadWasmModel(contract) {
   // TEMP two file method, check source wasm file and higher level helper file
   // Construct the file path based on the contract details
   let fileNameOS = ''
+  console.log('os0000000000000000000')
+  console.log(os.platform())
   if (os.platform() === 'win32') {
     fileNameOS =  `/hop-models/wasm/statistics/${name}.wasm`
   } else {
     fileNameOS =  `/.hop-models/wasm/statistics/${name}.wasm`
   }
   const filePathWASM = path.resolve( os.homedir() + fileNameOS );
-  const filePathHelper = path.resolve( os.homedir() + `/.hop-models/statistics/${'average'}.js`);
+  let nameWASM = 'average'
+  const filePathHelper = path.resolve( os.homedir() + `/.hop-models/statistics/${nameWASM}.js`);
   console.log('paths pelase')
   console.log(filePathWASM)
   console.log(filePathHelper)

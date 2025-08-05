@@ -1,5 +1,6 @@
 import os from 'os'
 import path from 'path';
+
 // Construct the path to the models folder standard home dictory HOP implementation
 let modelsPath = ''
 if (os.platform() === 'win32') {
