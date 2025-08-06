@@ -5,10 +5,10 @@ let exports = {};
 
 if (os.platform() === 'win32') {
   console.log('window path');
-  const avgPath = path.resolve('./statistics/average.js');
-  const sumPath = path.resolve('./statistics/sum.js');
-  const linregPath = path.resolve('./statistics/linear-regression.js');
-  const autoregPath = path.resolve('./statistics/auto-regression.js');
+  const avgPath =  path.join(os.homedir(), 'hop-models', 'statistics', '/average.js');
+  const sumPath = path.join(os.homedir(), 'hop-models', 'statistics', 'sum.js');
+  const linregPath = path.join(os.homedir(), 'hop-models', 'statistics', 'linear-regression.js');
+  const autoregPath = path.join(os.homedir(), 'hop-models', 'statistics', 'auto-regression.js');
 
   exports = {
     AverageModel: (await import(avgPath)).default,
