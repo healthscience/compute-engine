@@ -42,7 +42,7 @@ describe('Dynamic Model Loading', () => {
           description: 'statistical mean',
           dtprefix: 'null',
           code: 'return inputs.reduce((a, b) => a + b, 0) / inputs.length;',
-          hash: 'f29a24b4bb9fac53c8c62005058b1fb72de5be85dd5c0ea75fa7de9ffe77177d', // 'afe8619d1f5fc2dbbb69ca333b537121915de07ab511b03c287f67d1909b471b',
+          hash: 'e8246cd7188874afc298197389e7c6a4afc5b03770a512a6843fffd927b66210', // 'afe8619d1f5fc2dbbb69ca333b537121915de07ab511b03c287f67d1909b471b',
           mode: 'javascript' // Specify the mode
         }
       }

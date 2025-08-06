@@ -1,4 +1,3 @@
-// src/models/statistics/average.js
 import BaseModel from '../base/base-model.js';
 
 export default class AverageModel extends BaseModel {
