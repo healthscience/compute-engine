@@ -1,5 +1,16 @@
-// src/models/statistics/sum.js
-import BaseModel from '../base/base-model.js';
+import os from 'os'
+import path from 'path'
+
+let BaseModel;
+
+if (os.platform() === 'win32') {
+  console.log('window path');
+  const baseModelPath = path.resolve('./base/base-model.js');
+  BaseModel = (await import(baseModelPath)).default;
+} else {
+  console.log('non windows');
+  BaseModel = (await import('../base/base-model.js')).default;
+}
 
 export default class SumModel extends BaseModel {
   constructor() {
