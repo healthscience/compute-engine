@@ -1,16 +1,31 @@
-import os from 'os'
-import path from 'path'
+import os from 'os';
+import path from 'path';
+import { fileURLToPath, pathToFileURL } from 'url';
+
 
 let BaseModel;
 
-if (os.platform() === 'win32') {
-  console.log('window path');
-  const baseModelPath = path.join(os.homedir(), 'hop-models', 'base', 'base-model.js');
-  BaseModel = (await import(baseModelPath)).default;
-} else {
-  console.log('non windows');
-  BaseModel = (await import('../base/base-model.js')).default;
+
+async function loadBaseModel() {
+  try {
+    if (os.platform() === 'win32') {
+      console.log('window path');
+      const baseModelPath = path.join(os.homedir(), 'hop-models', 'base/base-model.js') // path.resolve('./base/base-model.js');
+      const baseModelUrl = pathToFileURL(baseModelPath).href;
+      console.log(`Attempting to import BaseModel from: ${baseModelUrl}`);
+      BaseModel = (await import(baseModelUrl)).default;
+    } else {
+      console.log('non windows');
+      console.log('Attempting to import BaseModel from: ./base/base-model.js');
+      BaseModel = (await import('../base/base-model.js')).default;
+    }
+  } catch (error) {
+    console.error('Error loading BaseModel:', error);
+    throw error; // Re-throw the error to ensure the test fails
+  }
 }
+
+await loadBaseModel()
 
 export default class AverageModel extends BaseModel {
   constructor() {

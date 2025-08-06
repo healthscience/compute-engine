@@ -32,7 +32,6 @@ export const models = await modelsPromise;
 
 // import * as models from os.homedir() +  '.hop-models/models/index.js' // + './models/index.js';
 import { loadJavaScriptModel, loadWasmModel, loadPyScriptModel } from './loaders.js';
-import { mode } from 'simple-statistics';
 
 class ComputeEngine {
   constructor() {
