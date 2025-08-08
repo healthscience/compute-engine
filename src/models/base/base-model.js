@@ -1,3 +1,4 @@
+import os from 'os'
 import { createHash } from 'crypto-browserify';
 
 export default class BaseModel {
