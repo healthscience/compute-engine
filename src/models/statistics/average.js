@@ -9,14 +9,10 @@ let BaseModel;
 async function loadBaseModel() {
   try {
     if (os.platform() === 'win32') {
-      console.log('window path');
       const baseModelPath = path.join(os.homedir(), 'hop-models', 'base/base-model.js') // path.resolve('./base/base-model.js');
       const baseModelUrl = pathToFileURL(baseModelPath).href;
-      console.log(`Attempting to import BaseModel from: ${baseModelUrl}`);
       BaseModel = (await import(baseModelUrl)).default;
     } else {
-      console.log('non windows');
-      console.log('Attempting to import BaseModel from: ./base/base-model.js');
       BaseModel = (await import('../base/base-model.js')).default;
     }
   } catch (error) {
@@ -58,11 +54,7 @@ export default class AverageModel extends BaseModel {
 
   async computeWasm(data, options = {}) {
  const baseLive = new BaseModel();
-    console.log(baseLive)
     const wasmLive = await this.initWasm();
-    console.log('wwwwwwwwwwwwwww')
-    console.log(wasmLive)
-    console.log(wasmLive)
     const values = data.map(item => item.value || item);
     // two option call direct or via export short cut
     // one

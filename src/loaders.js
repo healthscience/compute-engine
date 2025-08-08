@@ -76,9 +76,6 @@ export async function loadJavaScriptModel(contract) {
 
     // Generate hash for the file path
     const fileHash = generateHash(filePath);
-    console.log('fileHash');
-    console.log(filePath);
-    console.log(fileHash);
     
     // Verify the hash
     if (fileHash !== hash) {
@@ -121,12 +118,6 @@ export async function loadWasmModel(contract) {
   } else {
     helperPath = path.join(os.homedir(), '.hop-models', 'statistics', `${nameWASM}.js`);
   }
-  
-  console.log('os0000000000000000000');
-  console.log(os.platform());
-  console.log('paths pelase');
-  console.log(wasmPath);
-  console.log(helperPath);
   
   // Check if we're in a test environment
   const isTestEnv = process.env.NODE_ENV === 'test' || process.env.VITEST;
