@@ -6,6 +6,11 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['test/**/*.test.js'],
+     environmentOptions: {
+      env: {
+        VITEST: 'true'
+      }
+    }
   },
   plugins: [
     wasm(),

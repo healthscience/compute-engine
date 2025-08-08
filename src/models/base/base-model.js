@@ -26,12 +26,12 @@ export default class BaseModel {
 
   async initWasm() {
     if (!this.wasmWrap) {
-      let wasmWrapper = {}
+      let wasmWrapper = {};
       if (os.platform() === 'win32') {
         let pathWrap = path.join(os.homedir(), 'hop-models', 'wasm', 'wasm-wrapper.js');
-        wasmWrapper =  await import(pathWrap)
+        wasmWrapper = await import(pathWrap);
       } else {
-        const wasmWrapper = await import('../wasm/wasm-wrapper.js');
+        wasmWrapper = await import('../wasm/wasm-wrapper.js');
       }
       this.wasmWrap = wasmWrapper.default;
     }
