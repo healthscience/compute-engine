@@ -1,13 +1,58 @@
 import os from 'os'
 import path from 'path';
+import { fileURLToPath, pathToFileURL } from 'url';
 
-// Construct the path to the models folder standard home dictory HOP implementation
-let modelsPath = ''
-if (os.platform() === 'win32') {
-  modelsPath = path.join(os.homedir(), 'hop-models', '', 'index.js');
-} else {
-  modelsPath = path.join(os.homedir(), '.hop-models', '', 'index.js');
+async function loadModels() {
+  try {
+    // Construct the path to the models folder standard home dictory HOP implementation
+    let modelsPath = ''
+    if (os.platform() === 'win32') {
+      modelsPath = path.join(os.homedir(), 'hop-models', '', 'index.js');
+    } else {
+      modelsPath = path.join(os.homedir(), '.hop-models', '', 'index.js');
+    }
+    // const modelsPath = path.join(os.homedir(), 'hop-models', 'index.js');
+    console.log('modelsPath');
+    console.log(modelsPath);
+
+    let models;
+    if (os.platform() === 'win32') {
+      console.log('window path');
+      const modelsUrl = pathToFileURL(modelsPath).href;
+      console.log(`Attempting to import models from: ${modelsUrl}`);
+      models = (await import(modelsUrl)).default;
+    } else {
+      console.log('non windows');
+      console.log(`Attempting to import models from: ${modelsPath}`);
+      models = (await import(modelsPath)).default;
+    }
+
+    console.log('Models loaded successfully');
+    return models;
+  } catch (error) {
+    console.error('Error loading models:', error);
+    throw error;
+  }
 }
+
+async function start() {
+  try {
+    const models = await loadModels();
+    // Use the models as needed
+  } catch (error) {
+    console.error('Error starting the application:', error);
+  }
+}
+
+start();
+
+
+
+
+
+
+
+/*
 
 // Function to dynamically import the models
 async function loadModels() {
@@ -22,9 +67,10 @@ async function loadModels() {
 
 // Immediately invoke the function to load the models and re-export them
 const modelsPromise = loadModels();
+*/ 
 
 // Re-export the models dynamically
-export const models = await modelsPromise;
+// export const models = await modelsPromise;
 
 
 // import * as models from os.homedir() +  '.hop-models/models/index.js' // + './models/index.js';
