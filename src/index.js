@@ -1,13 +1,28 @@
 import os from 'os'
 import path from 'path';
 
+
+// home folder independent of OS
+let homedir = os.homedir();
+console.log(homedir)
+let splitLast = homedir.split(`\\`)
+console.log('homedirecotry for os is=====')
+homedir = splitLast[2] // '/Users/Quickemu/'
+console.log(homedir)
+
+
 // Construct the path to the models folder standard home dictory HOP implementation
 let modelsPath = ''
 if (os.platform() === 'win32') {
-  modelsPath = path.join(os.homedir(), 'hop-models', '', 'index.js');
+  // modelsPath = '/Users/Quickemu/hop-models/index.js' // path.join(os.homedir(), 'hop-models', '', 'index.js');
+  // get HOP models central
+  modelsPath = '/Users/' + homedir +'/hop-models/index.js';
+  console.log('HOP models path central--------------')
+  console.log(modelsPath)
 } else {
   modelsPath = path.join(os.homedir(), '.hop-models', '', 'index.js');
 }
+
 
 // Function to dynamically import the models
 async function loadModels() {
