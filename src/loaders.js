@@ -3,6 +3,11 @@ import os from 'os'
 import path from 'path';
 import fs from 'fs';
 
+// home folder independent of OS
+let homedir = os.homedir();
+let splitLast = homedir.split(`\\`)
+homedir = splitLast[2]
+
 
 /**
  * Create a mock model for testing
@@ -53,7 +58,8 @@ export async function loadJavaScriptModel(contract) {
   // Construct the file path based on the contract details
   let filePath = '';
   if (os.platform() === 'win32') {
-    filePath = path.join(os.homedir(), 'hop-models', 'statistics', `${name}.js`);
+    // filePath = path.join(os.homedir(), 'hop-models', 'statistics', `${name}.js`);
+    filePath = '/Users/' + homedir +'/hop-models/statistics' + `${name}.js`;
   } else {
     filePath = path.join(os.homedir(), '.hop-models', 'statistics', `${name}.js`);
   }
@@ -106,7 +112,8 @@ export async function loadWasmModel(contract) {
   // Construct the file paths based on the contract details
   let wasmPath = '';
   if (os.platform() === 'win32') {
-    wasmPath = path.join(os.homedir(), 'hop-models', 'wasm', 'statistics', `${name}.wasm`);
+    // wasmPath = path.join(os.homedir(), 'hop-models', 'wasm', 'statistics', `${name}.wasm`);
+    filePath = '/Users/' + homedir +'/hop-models/wasm/statistics' + `${name}.js`;
   } else {
     wasmPath = path.join(os.homedir(), '.hop-models', 'wasm', 'statistics', `${name}.wasm`);
   }
@@ -114,7 +121,8 @@ export async function loadWasmModel(contract) {
   let nameWASM = 'average';
   let helperPath = '';
   if (os.platform() === 'win32') {
-    helperPath = path.join(os.homedir(), 'hop-models', 'statistics', `${nameWASM}.js`);
+    // helperPath = path.join(os.homedir(), 'hop-models', 'statistics', `${nameWASM}.js`);
+    helperPath = '/Users/' + homedir +'/hop-models/statistics' + `${nameWASM}.js`;
   } else {
     helperPath = path.join(os.homedir(), '.hop-models', 'statistics', `${nameWASM}.js`);
   }
@@ -169,7 +177,8 @@ export async function loadPyScriptModel(contract) {
   // Construct the file path based on the contract details
   let filePath = ''
   if (os.platform() === 'win32') {
-    filePath =  os.homedir() + `/hop-models/python/statistics/${name}.py`;
+    // filePath =  os.homedir() + `/hop-models/python/statistics/${name}.py`;
+    filePath = '/Users/' + homedir + '/hop-models/python/statistics' + `${name}.py`;
   } else {
     filePath =  os.homedir() + `/.hop-models/python/statistics/${name}.py`;
   }
