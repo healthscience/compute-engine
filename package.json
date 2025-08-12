@@ -1,6 +1,6 @@
 {
   "name": "compute-engine",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Isolated compute engine for testing dynamic loading and WebAssembly",
   "main": "src/index.js",
   "type": "module",
