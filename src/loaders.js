@@ -113,7 +113,7 @@ export async function loadWasmModel(contract) {
   let wasmPath = '';
   if (os.platform() === 'win32') {
     // wasmPath = path.join(os.homedir(), 'hop-models', 'wasm', 'statistics', `${name}.wasm`);
-    filePath = '/Users/' + homedir +'/hop-models/wasm/statistics' + `${name}.js`;
+    wasmPath = '/Users/' + homedir +'/hop-models/wasm/statistics' + `${name}.js`;
   } else {
     wasmPath = path.join(os.homedir(), '.hop-models', 'wasm', 'statistics', `${name}.wasm`);
   }
